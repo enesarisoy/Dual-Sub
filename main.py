@@ -23,7 +23,7 @@ def post_text(username):
             return jsonify({'error': 'Text not provided'}), 400
 
     elif request.method == 'GET':
-        new_text = request.args.get('text')
+        new_text = request.args.get('text').capitalize()
 
         if new_text:
             user_collection.insert_one({'text': new_text})
@@ -100,4 +100,4 @@ def delete_text(username):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=81)
