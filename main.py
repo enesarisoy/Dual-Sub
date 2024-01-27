@@ -37,12 +37,21 @@ def get_texts(username):
     user_collection = db[username]
     texts_from_db = list(user_collection.find())  # Tüm verileri MongoDB'den al ve liste olarak tut
 
-    # Verileri istediğiniz şekilde eşleştirme
+    # Create a list of unique texts based on the 'text' field
+    unique_texts = []
+    seen_texts = set()
+    for text_dict in texts_from_db:
+        current_text = text_dict.get('text')
+        if current_text not in seen_texts:
+            unique_texts.append(text_dict)
+            seen_texts.add(current_text)
+
+    # Combine the unique texts into the desired format
     all_texts = []
     i = 0
-    while i < len(texts_from_db) - 1:
-        current_text = texts_from_db[i].get('text')
-        next_text = texts_from_db[i + 1].get('text')
+    while i < len(unique_texts) - 1:
+        current_text = unique_texts[i].get('text')
+        next_text = unique_texts[i + 1].get('text')
         all_texts.append({
             'text': current_text,
             'translation': next_text
