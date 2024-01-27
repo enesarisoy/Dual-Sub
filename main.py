@@ -2,11 +2,11 @@ from flask import Flask, request, jsonify
 from pymongo import MongoClient
 
 app = Flask(__name__)
-texts = []  # Bu liste, gönderilen metinleri depolamak için kullanılacak
+texts = []  # Bu liste, gÃ¶nderilen metinleri depolamak iÃ§in kullanÄ±lacak
 client = MongoClient(
-    'mongodb+srv://arisoyeness:arisoyeness@pot.wd76axd.mongodb.net/?retryWrites=true&w=majority')  # MongoDB bağlantı adresini ayarlayın
-db = client['words']  # Veritabanınızın adını ayarlayın
-collection = db['texts']  # Kullanacağınız koleksiyonun adını ayarlayın
+    'mongodb+srv://arisoyeness:arisoyeness@pot.wd76axd.mongodb.net/?retryWrites=true&w=majority')  # MongoDB baÄlantÄ± adresini ayarlayÄ±n
+db = client['words']  # VeritabanÄ±nÄ±zÄ±n adÄ±nÄ± ayarlayÄ±n
+collection = db['texts']  # KullanacaÄÄ±nÄ±z koleksiyonun adÄ±nÄ± ayarlayÄ±n
 
 
 @app.route('/post_text/<username>', methods=['POST', 'GET'])
@@ -60,13 +60,12 @@ def get_texts(username):
 
     return jsonify({'texts': all_texts})
 
-
 @app.route('/delete_text/<username>', methods=['DELETE'])
 def delete_text(username):
     user_collection = db[username]
-    texts_from_db = list(user_collection.find())  # Tüm verileri MongoDB'den al ve liste olarak tut
+    texts_from_db = list(user_collection.find())  # TÃ¼m verileri MongoDB'den al ve liste olarak tut
 
-    # Verileri istediğiniz şekilde eşleştirme
+    # Verileri istediÄiniz Åekilde eÅleÅtirme
     all_texts = []
     i = 0
     word_to_delete = request.args.get('word')
@@ -97,7 +96,7 @@ def delete_text(username):
 #     result = user_collection.delete_one({'text': word_to_delete})
 #
 #     if result.deleted_count > 0:
-#         # Silinen kelimenin sonrasındaki kelimeyi de sil
+#         # Silinen kelimenin sonrasÄ±ndaki kelimeyi de sil
 #         next_word = user_collection.find_one({'text': word_to_delete})
 #         if next_word:
 #             user_collection.delete_one({'_id': next_word['_id']})
